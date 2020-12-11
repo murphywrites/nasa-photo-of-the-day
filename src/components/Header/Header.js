@@ -1,8 +1,13 @@
 import React from "react";
+import styled from 'styled-components'
+
+const WrapperDiv = styled.div`
+color: white;
+text-align:center;
+`
 
 export default function Header(props) {
     const { date } = props;
-    console.log('header',date)
     let changeDate = date.split("-")
     if (changeDate[1] === "12"){
       changeDate[1] = 'December'}
@@ -30,13 +35,11 @@ export default function Header(props) {
                           changeDate[1] = 'January'}
     
     changeDate = `${changeDate[1]} ${changeDate[2]}, ${changeDate[0]}`
-
-    console.log(changeDate)
                         
   
     return (
-      <div className="header">
+      <WrapperDiv>
         <h1>NASA Photo of the Day</h1>
         <h2>{changeDate}</h2>
-      </div>
+      </WrapperDiv>
     );}

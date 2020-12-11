@@ -4,6 +4,7 @@ import axios from "axios";
 import Photo from "./components/Photo/Photo"
 import PhotoInfo from "./components/PhotoInfo/PhotoInfo"
 import Header from "./components/Header/Header"
+import styled from 'styled-components'
 
 
 
@@ -13,12 +14,16 @@ const [photoObj, setPhotoObj] = useState('');
 const [date, setDate] = useState('');
 const [photo, setPhoto] = useState('')
 const [info, setInfo] = useState('')
+const [displayOn, setDisplayOn] = useState(true)
+
+const toggleDisplay = e => {
+  setDisplayOn( !displayOn )
+}
 
 
 useEffect(() => {
   const fetchPhotoOfDay = () => {
-    axios.
-    get(URL = 'https://api.nasa.gov/planetary/apod?api_key=wDhtM0iiz4v9puJ8o0dmffW2hvx6W724caHOcazZ&date=2020-12-08')
+    axios.get(URL = 'https://api.nasa.gov/planetary/apod?api_key=wDhtM0iiz4v9puJ8o0dmffW2hvx6W724caHOcazZ')
     .then((res) => {
       setPhotoObj( res.data)
       setPhoto( res.data.url );
@@ -33,26 +38,33 @@ useEffect(() => {
   fetchPhotoOfDay();
 }, []);
 
-console.log(photoObj)
+console.log("here's the display", displayOn)
 
+const WrapperDiv = styled.div`
 
-// const upvotePhoto = photoId => {
-//  setUpvotes ( photoId.upvotes + 1 )
-// };
+font-family: 'Montserrat', sans-serif;
+background-image: url(${photoObj.url});
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-position: center;
+background-color: black;
+background-size: auto;
+opacity: 1;`
 
+const ToggleDisplayDiv = styled.div`
+
+visibility: ${ displayOn?'visible':'hidden'};
+transition: visibility 10s linear 1s;
+`
+
+// visibility: ${ displayOn?'visible':'hidden'};
   return (
-    <div className="App">
-
-      {/* <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun <span role="img" aria-label='go!'>🚀</span>!
-      </p> */}
-      <Header date = {date}/>
-      <Photo photo = {photo}/>
-      {/* <PhotoList /> */}
-      <PhotoInfo info = {info} />
-    </div>
-  );
+                <WrapperDiv  onDoubleClick = { toggleDisplay } >
+                  <ToggleDisplayDiv > 
+                  <Header date = {date}/>
+                  <Photo  photo = {photo}/>
+                  {/* <PhotoList /> */}
+                  <PhotoInfo info = {info} />
+                  </ToggleDisplayDiv >
+                </WrapperDiv>)
 }
-
-
